@@ -1,0 +1,14 @@
+.list-item {
+  max-width: 500px;
+
+  &__card {
+    padding: 15px;
+
+    transition: box-shadow 0.5s;
+    
+    &:hover {
+      cursor: pointer;
+      box-shadow: 0 0 10px 1px grey;
+    }
+  }
+}
