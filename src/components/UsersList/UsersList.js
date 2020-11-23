@@ -1,5 +1,6 @@
 import { Button, CircularProgress, List } from '@material-ui/core';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { User } from '../User/User';
 import './UsersList.scss';
 
@@ -9,6 +10,7 @@ export const UsersList = ({
   currentPage,
   nextPage,
   prevPage,
+  choosedUserId,
 }) => {
   const slicedUsers = users.slice(
     currentPage * maxUsers - maxUsers,
@@ -18,6 +20,7 @@ export const UsersList = ({
   return (
     <>
       <h1>Users</h1>
+      <p>{users[choosedUserId] ? `${users[choosedUserId].name} ${users[choosedUserId].surname}` : null}</p>
       <List className="list">
         {slicedUsers.length ? (
           slicedUsers.map((user) => <User key={user.id} user={user} />)
@@ -55,3 +58,12 @@ export const UsersList = ({
     </>
   );
 };
+
+UsersList.propTypes = {
+  users: PropTypes.array.isRequired,
+  maxUsers: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  nextPage: PropTypes.func.isRequired,
+  prevPage: PropTypes.func.isRequired,
+  choosedUserId: PropTypes.number.isRequired,
+}

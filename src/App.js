@@ -17,9 +17,30 @@ const App = () => {
     });
   }, [dispatch])
 
+  const randomInteger = (min, max) => {
+    const rand = min - 0.5 + Math.random() * (max - min + 1);
+  
+    return Math.round(rand);
+  }
+
+  const changeChoosedUser = useCallback(() => {
+    if (storage.users.length === 0) {
+      return
+    }
+
+    const nextUserId = randomInteger(1, storage.users.length);
+
+    dispatch({
+      type: 'CHANGE_CHOOSED_USER',
+      nextUserId,
+    })
+  }, [dispatch, storage.users.length])
+
   useEffect(() => {
     loadUsers(getUsers);
-  }, [loadUsers]);
+    changeChoosedUser();
+    setInterval(changeChoosedUser, 8000);
+  }, [loadUsers, changeChoosedUser]);
 
   const nextPage = () => {
     if(storage.currentPage === storage.users.length / storage.maxUsers) {
@@ -47,6 +68,7 @@ const App = () => {
         users={storage.users}
         maxUsers={storage.maxUsers}
         currentPage={storage.currentPage}
+        choosedUserId={storage.choosedUserId}
         nextPage={nextPage}
         prevPage={prevPage}
       />
